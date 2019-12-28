@@ -159,7 +159,7 @@ public class ThreadPoolExecutorUtil {
 //                e.printStackTrace();
 //            }
 //            setUncatchException();
-//            System.out.println(1/0);
+            System.out.println(1/0);
             System.out.println("我在执行");
         }
     }
@@ -179,13 +179,13 @@ public class ThreadPoolExecutorUtil {
 
     public static void main(String[] args) {
         init3();
-        try {
+//        try {
             for(int i=0;i<5;i++){
                 executorService.execute(new Test());
             }
-        }  finally {
-            myShutdown(executorService);
-        }
+//        }  finally {
+//            myShutdown(executorService);
+//        }
     }
 
 }

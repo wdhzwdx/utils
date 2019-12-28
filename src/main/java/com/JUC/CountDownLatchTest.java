@@ -23,6 +23,7 @@ public class CountDownLatchTest {
         public void run(){
             System.out.println(Thread.currentThread().getName()+"到了");
             count.countDown();
+            System.out.println("lala");
         }
     }
 

@@ -47,7 +47,6 @@ public class IdeaCz {
         if (0>b) {
 
         }
-
         //怪事，b<0   就不能if了
         
     }
