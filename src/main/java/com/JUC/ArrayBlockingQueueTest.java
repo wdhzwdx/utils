@@ -33,9 +33,9 @@ public class ArrayBlockingQueueTest {
     public static void main(String[] args) {
         new AbqPutTest("1").start();
         new AbqPutTest("1").start();
-        new AbqPutTest("1").start();
-        new AbqPutTest("2").start();
         new AbqPutTest("3").start();
+        new AbqPutTest("4").start();
+        new AbqPutTest("5").start();
     }
 
 

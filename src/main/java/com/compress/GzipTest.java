@@ -100,9 +100,10 @@ public class GzipTest extends AbstractCompress{
          * gzip解压缩后的字符串长度为--->29001
          * gzip解压后的字符串是一样的。。。。
          */
-        test.testResponseData(100);
+        test.testResponseData(600);
+
 //        for(int i=0;i<10000;i++){
-//            test.testResponseData(100);
+//            test.testResponseData(1);
 //        }
     }
     

@@ -1,5 +1,7 @@
 package com.compress;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import sun.misc.BASE64Decoder;
 import sun.misc.BASE64Encoder;
 
@@ -90,6 +92,10 @@ public class DeflateTest extends AbstractCompress{
          * deflate解压后的字符串是一样的。。。。
          */
         test.testResponseData(100);
+        String d = "{}";
+        JSONObject j = JSON.parseObject(d);
+
+        System.out.println(j.isEmpty());
 //        for(int i=0;i<10000;i++){
 //            test.testResponseData(100);
 //        }

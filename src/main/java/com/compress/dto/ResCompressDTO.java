@@ -2,6 +2,9 @@ package com.compress.dto;
 
 import lombok.Data;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @Data
 public class ResCompressDTO {
     private String invoiceCode;
@@ -30,7 +33,12 @@ public class ResCompressDTO {
         resCompressDTO.setCheckDate("2019-07-26");
         resCompressDTO.setDeductibleMode("1");
         resCompressDTO.setDeductibleResult("2");
-        resCompressDTO.setDeductibleResultMsg("查无此票");
+        resCompressDTO.setDeductibleResultMsg("无此票");
         return resCompressDTO;
+    }
+
+    public static void main(String[] args) {
+        Map<String,ResCompressDTO> t = new HashMap<>();
+        t.put("1",create());
     }
 }

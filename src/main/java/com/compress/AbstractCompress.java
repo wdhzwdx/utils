@@ -2,7 +2,7 @@ package com.compress;
 
 import com.alibaba.fastjson.JSON;
 import com.compress.dto.CompressDTO;
-import com.compress.dto.ResCompressDTO;
+import com.compress.dto.ResCompressDTO1;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,10 +24,10 @@ public abstract class AbstractCompress {
      */
     public String zip(String str){
         long current = System.currentTimeMillis();
-        String result = compress(str);
+        str = compress(str);
         long end = System.currentTimeMillis();
-        System.out.println(getSourceName()+"压缩耗时："+(end-current));
-        return result;
+        System.out.println(getSourceName()+"压缩耗时："+(end-current)+"毫秒");
+        return str;
     }
 
     /**
@@ -46,7 +46,7 @@ public abstract class AbstractCompress {
         long current = System.currentTimeMillis();
         String result = uncompress(str);
         long end = System.currentTimeMillis();
-        System.out.println(getSourceName()+"解压耗时："+(end-current));
+        System.out.println(getSourceName()+"解压耗时："+(end-current)+"毫秒");
         return result;
     }
 
@@ -91,16 +91,21 @@ public abstract class AbstractCompress {
      * @param count
      */
     public void testResponseData(int count){
-        List<ResCompressDTO> list = new ArrayList<>(count);
+        List<ResCompressDTO1> list = new ArrayList<>(count);
         for (int i=0;i<count;i++){
-            list.add(ResCompressDTO.create());
+            list.add(ResCompressDTO1.create());
         }
         String ysString = JSON.toJSONString(list);
         System.out.println(getSourceName()+"字符串长度为：" + ysString.length());
-
+//        try {
+//            System.out.println("\nBase64后的字符串为----->" + new BASE64Encoder().encode(ysString.getBytes("utf-8")));
+//        } catch (UnsupportedEncodingException e) {
+//            e.printStackTrace();
+//        }
         String ysStr = zip(ysString);
-//        System.out.println("\n压缩后的字符串为----->" + ysStr);
+
         float len1 = ysStr.length();
+        System.out.println("压缩后的字符串："+ysStr);
         System.out.println(getSourceName()+"压缩后的字符串长度为----->" + len1);
 
         String jyStr = unZip(ysStr);

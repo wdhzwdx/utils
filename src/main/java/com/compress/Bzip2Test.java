@@ -20,6 +20,8 @@ import java.io.IOException;
  *             <artifactId>commons-compress</artifactId>
  *             <version>1.18</version>
  *         </dependency>
+ *
+ *
  */
 public class Bzip2Test extends AbstractCompress{
     
@@ -105,7 +107,8 @@ public class Bzip2Test extends AbstractCompress{
          * bzip2解压缩后的字符串长度为--->29001
          * bzip2解压后的字符串是一样的。。。。
          */
-        test.testResponseData(100); //100次 压缩后606长度，压缩时间156ms,解压15ms
+        //10000次时，即文件越大，压缩效率会超过其他压缩算法
+        test.testResponseData(100);
     }
 
 

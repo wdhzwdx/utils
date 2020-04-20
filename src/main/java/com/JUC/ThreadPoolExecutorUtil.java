@@ -4,6 +4,7 @@ import com.google.common.util.concurrent.ThreadFactoryBuilder;
 
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.ExecutorService;
+import java.util.concurrent.RejectedExecutionException;
 import java.util.concurrent.RejectedExecutionHandler;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
@@ -55,6 +56,7 @@ public class ThreadPoolExecutorUtil {
                 0L,
                 TimeUnit.SECONDS,
                 new ArrayBlockingQueue<Runnable>(1),
+                new ThreadFactoryBuilder().setNameFormat("pol-%d").build(),
                 new MyRejectedExecutionHandler3());
     }
 
@@ -100,8 +102,8 @@ public class ThreadPoolExecutorUtil {
 
         @Override
         public void rejectedExecution(Runnable r, ThreadPoolExecutor executor) {
-            r.run();
             System.out.println("拒绝策略3：我自己跑");
+            r.run();
         }
     }
 
@@ -181,8 +183,14 @@ public class ThreadPoolExecutorUtil {
         init3();
 //        try {
             for(int i=0;i<5;i++){
-                executorService.execute(new Test());
+                try {
+                    executorService.execute(new Test().setUncatchException());
+                }catch (RejectedExecutionException e) {
+                    System.out.println("异常"+i);
+                }
             }
+
+        System.out.println("11");
 //        }  finally {
 //            myShutdown(executorService);
 //        }

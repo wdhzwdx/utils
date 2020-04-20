@@ -14,13 +14,26 @@ import java.util.stream.Collectors;
 public class StreamUtils {
 	
 	public static void main(String args[]){
+        sort();
 //		listToMap();
-		filter();
+//		filter();
 //		groupingBy();
 //		sum();
 //		findOne();
-		System.exit(0);
+//		System.exit(0);
 	}
+
+	public static void sort(){
+	    List<Integer> list = new ArrayList<>();
+	    list.add(1);
+	    list.add(3);
+	    list.add(10);
+	    list.add(null);
+	    list.add(4);
+	    list.add(null);
+	    list.sort((a,b)->a==null?1:b==null?-1:a.intValue()-b.intValue());
+        System.out.println(list);
+    }
 
 	/**
 	 * List<T> -> Map

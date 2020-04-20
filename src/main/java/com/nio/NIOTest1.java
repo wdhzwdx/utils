@@ -6,6 +6,7 @@ import org.apache.tomcat.util.http.fileupload.util.Streams;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.nio.ByteBuffer;
 import java.nio.channels.Channels;
 import java.nio.channels.FileChannel;
 import java.util.Random;
@@ -22,13 +23,14 @@ public class NIOTest1 {
     static {
         threadPool = new ThreadPoolExecutor(3,10,0, TimeUnit.SECONDS,
                 new LinkedBlockingDeque<Runnable>(10));
-    }
-    public static void main(String[] args) throws Exception {
         long start = System.currentTimeMillis();
         getTime(start);
+    }
+    public static void main(String[] args) throws Exception {
 
-//        test1();
-        test2();
+        test1();
+//        test2();
+//        test3();
     }
 
     public static void getTime(long start){
@@ -42,7 +44,7 @@ public class NIOTest1 {
                 }
                 long end = System.currentTimeMillis();
                 System.out.println("耗时:"+(end -start));
-                threadPool.shutdown();
+//                threadPool.shutdown();
             }
         }).start();
     }
@@ -55,7 +57,7 @@ public class NIOTest1 {
                 @Override
                 public void run() {
                     try {
-                        File file = new File("D://软件包//powerdesigner 16.5.rar");
+                        File file = new File("D://软件包//lombok.jar");
                         FileInputStream inputStream = new FileInputStream(file);
                         FileOutputStream outputStream = new FileOutputStream("D:\\test\\test"+r.nextInt(100000)+".rar");
                         Streams.copy(inputStream,outputStream,true);
@@ -70,12 +72,12 @@ public class NIOTest1 {
     }
 
     public static void test2() throws Exception {
-        File file = new File("D://软件包//powerdesigner 16.5.rar");
+        File file = new File("D://软件包//lombok.jar");
 
         long length = file.length();
-        byte[] bs = new byte[(int)length];
 
         FileInputStream inputStream = new FileInputStream(file);
+
         FileChannel fileChannel = inputStream.getChannel();
         Random r = new Random();
 
@@ -95,18 +97,48 @@ public class NIOTest1 {
             });
             threadPool.execute(thread);
         }
-     
-//        MappedByteBuffer mappedByteBuffer = fileChannel.map(FileChannel.MapMode.READ_ONLY,
-//                0,length);
-//        for (int offset=0;offset<length;offset++) {
-//            byte b = mappedByteBuffer.get();
-//            bs[offset] = b;
-//        }
-//
-//        Scanner scanner = new Scanner(new ByteArrayInputStream(bs)).useDelimiter("");
-//        while(scanner.hasNext()){
-//            System.out.print(scanner.next());
-//        }
+        
+    }
+
+    public static void test3() throws Exception {
+        File file = new File("D://软件包//lombok.jar");
+
+        FileInputStream inputStream = new FileInputStream(file);
+
+        FileChannel fileChannel = inputStream.getChannel();
+        Random r = new Random();
+        ByteBuffer buffer= ByteBuffer.allocate(1024);
+        for(int i=0;i<threadNum;i++){
+            Thread thread = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        FileOutputStream outputStream = new FileOutputStream("D:\\test1\\test_"+r.nextInt(100000)+".rar");
+                        FileChannel outChannel = outputStream.getChannel();
+                        while (true){
+                            int eof = fileChannel.read(buffer);
+                            //判断是否读完文件
+                            if (eof==-1) {
+                                break;
+                            }
+                            //重设一下buffer的position=0，limit=position
+                            buffer.flip();
+                            //开始写
+                            outChannel.write(buffer);
+                            //写完要重置buffer，重设position=0,limit=capacity
+                            buffer.clear();
+                        }
+                        outChannel.close();
+                        
+                        lock.countDown();
+                    } catch (Exception e){
+                        System.out.println("fileChannel复制文件失败");
+                    }
+                }
+            });
+            threadPool.execute(thread);
+        }
+
     }
 
 

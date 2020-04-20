@@ -10,6 +10,5 @@ public class tt1 extends tt2 implements tt{
     }
 
     public static void main(String[] args) {
-
     }
 }

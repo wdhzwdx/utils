@@ -3,7 +3,7 @@ package com;
 public class PoolShard {
 
     //分表总数
-    private static final int tableCount = 2<<6;
+    private static final int tableCount = 2<<7;
 
     public static void getPersonIndexTableName(String userId){
         int hash = Math.abs(userId.hashCode())%tableCount+1;
@@ -23,7 +23,7 @@ public class PoolShard {
     public static void main(String[] args) {
         getPersonIndexTableName("C56F3AAACD4A4B518A06482A204C20EC");
         getCorpIndexTableName("339901999999142");
-        getFpdmFphmTableName("3300173320","05671536");
+        getFpdmFphmTableName("123343213452","34546754");
     }
 
 }
